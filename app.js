@@ -1,6 +1,7 @@
 'use strict';
 
 Product.allProducts = [];
+var currentIndex = 0;
 
 function Product(filepath, name){
   this.filepath = filepath;
@@ -31,16 +32,27 @@ new Product('img/usb.gif', 'usb');
 new Product('img/water-can.jpg', 'water-can');
 new Product('img/wine-glass.jpg', 'wine-glass');
 
-var imgEl = document.getElementById('prod-pic');
-
-imgEl.addEventListener('click', randomProduct);
+var imgEl1 = document.getElementById('prod-pic1');
+// var imgEl2 = document.getElementById('prod-pic2');
+// var imgEl3 = document.getElementById('prod-pic3');
 
 function randomProduct() {
   var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
-  imgEl.src = Product.allProducts[randomIndex].filepath;
-  console.log(Product.allProducts[randomIndex].name);
+  imgEl1.src = Product.allProducts[randomIndex].filepath;
   Product.allProducts[randomIndex].shown++;
-  console.log(Product.allProducts[randomIndex].shown);
+  console.log(Product.allProducts[randomIndex].name + ' shown: ' + Product.allProducts[randomIndex].shown + ' time(s)');
+  currentIndex = randomIndex;
 }
+
+function count() {
+  Product.allProducts[currentIndex].clicked++;
+  console.log(Product.allProducts[currentIndex].name + ' clicked: ' + Product.allProducts[currentIndex].clicked + ' time(s)');
+}
+
+imgEl1.addEventListener('click', count);
+imgEl1.addEventListener('click', randomProduct);
+
+// imgEl2.addEventListener('click', randomProduct);
+// imgEl3.addEventListener('click', randomProduct);
 
 randomProduct();
