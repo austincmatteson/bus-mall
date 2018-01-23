@@ -39,6 +39,8 @@ function randomProduct() {
   var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
   imgEl.src = Product.allProducts[randomIndex].filepath;
   console.log(Product.allProducts[randomIndex].name);
+  Product.allProducts[randomIndex].shown++;
+  console.log(Product.allProducts[randomIndex].shown);
 }
 
 randomProduct();
