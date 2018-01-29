@@ -55,7 +55,7 @@ function randomProduct() {
     console.log('Duplicate was caught');
     randomLeft = Math.floor(Math.random() * Product.allProducts.length);
     randomMid = Math.floor(Math.random() * Product.allProducts.length);
-    randomRight = Math.floor(Math.random() * Product.allProductss.length);
+    randomRight = Math.floor(Math.random() * Product.allProducts.length);
   }
 
   // set the src and alt attributes of the two images
