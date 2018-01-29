@@ -1,7 +1,9 @@
 'use strict';
 
 Product.allProducts = [];
-var imagesDisplayed = 3;
+Product.totalClicks = 0;
+Product.lastDisplayed = [];
+
 var currentImages = [];
 var pic = 0;
 
@@ -39,28 +41,42 @@ var imgEl2 = document.getElementById('prod-pic2');
 var imgEl3 = document.getElementById('prod-pic3');
 
 function randomProduct() {
-  var randomIndex = 0;
-  for(var i = 1; i <= imagesDisplayed; i++) {
-    if(i === 1) {
-      randomIndex = Math.floor(Math.random() * Product.allProducts.length);
-      imgEl1.src = Product.allProducts[randomIndex].filepath;
-      Product.allProducts[randomIndex].shown++;
-      console.log(Product.allProducts[randomIndex].name + ' shown: ' + Product.allProducts[randomIndex].shown + ' time(s)');
-      currentImages.push(randomIndex);
-    } else if (i === 2) {
-      randomIndex = Math.floor(Math.random() * Product.allProducts.length);
-      imgEl2.src = Product.allProducts[randomIndex].filepath;
-      Product.allProducts[randomIndex].shown++;
-      console.log(Product.allProducts[randomIndex].name + ' shown: ' + Product.allProducts[randomIndex].shown + ' time(s)');
-      currentImages.push(randomIndex);
-    } else {
-      randomIndex = Math.floor(Math.random() * Product.allProducts.length);
-      imgEl3.src = Product.allProducts[randomIndex].filepath;
-      Product.allProducts[randomIndex].shown++;
-      console.log(Product.allProducts[randomIndex].name + ' shown: ' + Product.allProducts[randomIndex].shown + ' time(s)');
-      currentImages.push(randomIndex);
-    }
+  // generate random indices
+  var randomLeft = Math.floor(Math.random() * Product.allProducts.length);
+  var randomMid = Math.floor(Math.random() * Product.allProducts.length);
+  var randomRight = Math.floor(Math.random() * Product.allProducts.length);
+
+  // check to make sure each random number is unique AND not one of the previously displayed images
+  // if they are the same, we need to generate new random numbers
+  // Condition 1: left and right are the same
+  // Condition 2: left is in the lastDisplayed array
+  // Condition 3: right is in the lastDisplayed array
+  while(randomLeft === randomRight || randomMid === randomRight || randomLeft === randomMid || Product.lastDisplayed.includes(randomLeft) || Product.lastDisplayed.includes(randomRight) || Product.lastDisplayed.includes(randomMid)) {
+    console.log('Duplicate was caught');
+    randomLeft = Math.floor(Math.random() * Product.allProducts.length);
+    randomMid = Math.floor(Math.random() * Product.allProducts.length);
+    randomRight = Math.floor(Math.random() * Product.allProductss.length);
   }
+
+  // set the src and alt attributes of the two images
+  imgEl1.src = Product.allProducts[randomLeft].filepath;
+  imgEl1.alt = Product.allProducts[randomLeft].name;
+
+  imgEl2.src = Product.allProducts[randomMid].filepath;
+  imgEl2.alt = Product.allProducts[randomMid].name;
+
+  imgEl3.src = Product.allProducts[randomRight].filepath;
+  imgEl3.alt = Product.allProducts[randomRight].name;
+
+  // increment the number of times each image was shown
+  Product.allProducts[randomLeft].timesDisplayed += 1;
+  Product.allProducts[randomMid].timesDisplayed += 1;
+  Product.allProducts[randomRight].timesDisplayed += 1;
+
+  // APPROACH 2:
+  Product.lastDisplayed[0] = randomLeft;
+  Product.lastDisplayed[1] = randomMid;
+  Product.lastDisplayed[2] = randomRight;
 }
 
 function count() {
