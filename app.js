@@ -88,6 +88,7 @@ function handleClick(e) {
     sectionEl.removeEventListener('click', handleClick);
     showResults();
     updateVotes();
+    renderChart();
   } else {
     randomProduct();
   }
@@ -105,6 +106,33 @@ function updateVotes(){
   for(var i in Product.allProducts) {
     productVotes[i] = Product.allProducts[i].clicked;
   }
+}
+
+function renderChart(){
+  var context = document.getElementById('chart').getContext('2d');
+
+  var chartColors = ['#E37222', 'red'];
+
+  var productChart = new Chart(context, {
+    type: 'bar',
+    data: {
+      labels: productNames,
+      datasets: [{
+        label: 'Votes Per Product',
+        data: productVotes,
+        backgroundColors: chartColors,
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  })
 }
 
 sectionEl.addEventListener('click', handleClick);
